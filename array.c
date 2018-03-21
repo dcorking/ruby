@@ -1356,6 +1356,24 @@ rb_ary_first(int argc, VALUE *argv, VALUE ary)
 
 /*
  *  call-seq:
+ *     ary.second     ->   obj or nil
+ *
+ *  Returns the second element of the array.
+ *  If the array has fewer than two elements, returns +nil+
+ 
+ *     a = [ "q", "r", "s", "t" ]
+ *     a.second     #=> "r"
+ */
+
+static VALUE
+rb_ary_second(VALUE ary)
+{
+  if (RARRAY_LEN(ary) <= 1) return Qnil;
+  return RARRAY_AREF(ary, 1);
+}
+
+/*
+ *  call-seq:
  *     ary.last     ->  obj or nil
  *     ary.last(n)  ->  new_ary
  *
@@ -6265,6 +6283,7 @@ Init_Array(void)
     rb_define_method(rb_cArray, "at", rb_ary_at, 1);
     rb_define_method(rb_cArray, "fetch", rb_ary_fetch, -1);
     rb_define_method(rb_cArray, "first", rb_ary_first, -1);
+    rb_define_method(rb_cArray, "second", rb_ary_second, 0);
     rb_define_method(rb_cArray, "last", rb_ary_last, -1);
     rb_define_method(rb_cArray, "concat", rb_ary_concat_multi, -1);
     rb_define_method(rb_cArray, "<<", rb_ary_push, 1);
