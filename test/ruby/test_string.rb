@@ -1886,19 +1886,19 @@ CODE
     assert_equal(S("a\\baba"), S("ababa").sub(/(b)/, '\\\\\1'))
 
     assert_equal(S("a--ababababababababab"),
-		 S("abababababababababab").sub(/(b)/, '-\9-'))
+                 S("abababababababababab").sub(/(b)/, '-\9-'))
     assert_equal(S("1-b-0"),
-		 S("1b2b3b4b5b6b7b8b9b0").
-		 sub(/(b).(b).(b).(b).(b).(b).(b).(b).(b)/, '-\9-'))
+                 S("1b2b3b4b5b6b7b8b9b0").
+                 sub(/(b).(b).(b).(b).(b).(b).(b).(b).(b)/, '-\9-'))
     assert_equal(S("1-b-0"),
-		 S("1b2b3b4b5b6b7b8b9b0").
-		 sub(/(b).(b).(b).(b).(b).(b).(b).(b).(b)/, '-\\9-'))
+                 S("1b2b3b4b5b6b7b8b9b0").
+                 sub(/(b).(b).(b).(b).(b).(b).(b).(b).(b)/, '-\\9-'))
     assert_equal(S("1-\\9-0"),
-		 S("1b2b3b4b5b6b7b8b9b0").
-		 sub(/(b).(b).(b).(b).(b).(b).(b).(b).(b)/, '-\\\9-'))
+                 S("1b2b3b4b5b6b7b8b9b0").
+                 sub(/(b).(b).(b).(b).(b).(b).(b).(b).(b)/, '-\\\9-'))
     assert_equal(S("k"),
-		 S("1a2b3c4d5e6f7g8h9iAjBk").
-		 sub(/.(.).(.).(.).(.).(.).(.).(.).(.).(.).(.).(.)/, '\+'))
+                 S("1a2b3c4d5e6f7g8h9iAjBk").
+                 sub(/.(.).(.).(.).(.).(.).(.).(.).(.).(.).(.).(.)/, '\+'))
 
     assert_equal(S("ab\\aba"), S("ababa").sub(/b/, '\&\\'))
     assert_equal(S("ababa"), S("ababa").sub(/b/, '\&'))
@@ -2878,6 +2878,21 @@ CODE
     assert_equal("foo\r", s.delete_suffix("\n"))
   end
 
+  def test_palindrome
+    [
+      "Sator Arepo Tenet Opera Rotas",
+      "A man, a plan, a canal - Panama!",
+      "Madam, I'm Adam",
+      "NisiOisiN",
+      "わかみかものとかなかとのもかみかわ",
+      "アニマルマニア",
+    ].each{|str|
+      assert(str.palindrome?, "#{str} not detected as a palindrome")
+    }
+    assert(!"ab".palindrome?,  "\"ab\" is detected as a palindrome")
+    assert(!"".palindrome?, "empty string is not a palindrome")
+  end
+
   def test_delete_suffix_bang
     assert_raise(TypeError) { 'hello'.delete_suffix!(nil) }
     assert_raise(TypeError) { 'hello'.delete_suffix!(1) }
@@ -3135,6 +3150,7 @@ CODE
     assert_predicate(data[100..-1], :valid_encoding?)
   end
 end
+
 
 class TestString2 < TestString
   def initialize(*args)
